@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends BaseActivity implements View.OnClickListener {
 
     public static String TAG = "EmailPassword";
+    public String nonsence = "nonsence";
 
     private TextView mStatusTextView;
     private TextView mDetailTextView;
