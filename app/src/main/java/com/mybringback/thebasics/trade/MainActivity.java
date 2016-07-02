@@ -1,5 +1,8 @@
 package com.mybringback.thebasics.trade;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.renderscript.Long4;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -54,13 +57,13 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                FirebaseAuth out = new FirebaseAuth() {
-                    }
-                };
-            }
-        });
+                Login.mAuth.signOut();
+                startActivity(new Intent("android.intent.action.MAIN", Uri.parse("com.mybringback.thebasics.trade.MAIN")));
+                }
+            });
+        }
     }
-}
+
 
 
 

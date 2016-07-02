@@ -26,17 +26,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
     private EditText mEmailField;
     private EditText mPasswordField;
 
-    public static class Singleton {
-        private static FirebaseAuth Auth;
-
-        public static FirebaseAuth getAuth() {
-            if (Auth == null) {
-                Auth = new FirebaseAuth();
-            }
-            return Auth;
-        }
-    }
-
+    public static FirebaseAuth mAuth;
 
     private FirebaseAuth.AuthStateListener mAuthListener;
 
