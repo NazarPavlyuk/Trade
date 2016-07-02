@@ -1,5 +1,6 @@
 package com.mybringback.thebasics.trade;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
@@ -19,14 +20,23 @@ import com.google.firebase.auth.FirebaseUser;
 public class Login extends BaseActivity implements View.OnClickListener {
 
     public static String TAG = "EmailPassword";
-    public String nonsence = "nonsence";
 
     private TextView mStatusTextView;
     private TextView mDetailTextView;
     private EditText mEmailField;
     private EditText mPasswordField;
 
-    private FirebaseAuth mAuth;
+    public static class Singleton {
+        private static FirebaseAuth Auth;
+
+        public static FirebaseAuth getAuth() {
+            if (Auth == null) {
+                Auth = new FirebaseAuth();
+            }
+            return Auth;
+        }
+    }
+
 
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -56,7 +66,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
                 } else {
                     Log.d(TAG, "onAuthStateChanged:signed_out");
                 }
-                updateUI(user);
+                /*updateUI(user);*/
             }
 
         };
@@ -121,10 +131,10 @@ public class Login extends BaseActivity implements View.OnClickListener {
         });
     }
 
-    private void signOut() {
+    /*private void signOut() {
         mAuth.signOut();
         updateUI(null);
-    }
+    }*/
 
     private boolean validateForm() {
         boolean valid = true;
@@ -148,7 +158,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
         return valid;
     }
 
-    private void updateUI(FirebaseUser user) {
+    /*private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
             mStatusTextView.setText(getString(R.string.emailpassword_status_fmt, user.getEmail()));
@@ -165,20 +175,22 @@ public class Login extends BaseActivity implements View.OnClickListener {
             findViewById(R.id.email_password_fields).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_button).setVisibility(View.GONE);
         }
-    }
+    }*/
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.email_create_account_button:
                 createAccount(mEmailField.getText().toString(), mPasswordField.getText().toString());
+                startActivity(new Intent("com.mybringback.thebasics.trade.MAIN"));
                 break;
             case R.id.email_sign_in_button:
                 signIn(mEmailField.getText().toString(), mPasswordField.getText().toString());
+                startActivity(new Intent("com.mybringback.thebasics.trade.MAIN"));
                 break;
-            case R.id.sign_out_button:
+            /*case R.id.sign_out_button:
                 signOut();
-                break;
+                break;*/
         }
     }
 }
