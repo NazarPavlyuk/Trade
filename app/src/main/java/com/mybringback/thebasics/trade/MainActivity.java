@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Login.mAuth.signOut();
-                startActivity(new Intent("android.intent.action.MAIN", Uri.parse("com.mybringback.thebasics.trade.MAIN")));
+                startActivity(new Intent("android.intent.action.MAIN"));
                 }
             });
         }
