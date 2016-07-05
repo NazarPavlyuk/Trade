@@ -19,11 +19,14 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
     Button button,signOut;
     TextView textView;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +34,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         button = (Button) findViewById(R.id.button);
         signOut = (Button) findViewById(R.id.signOut);
+        mAuth = Login.Singleton.instance();
         final TextView textView = (TextView) findViewById(R.id.textView);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                YahooService service = YahooService.retrofit.create(YahooService.class);
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://finance.yahoo.com/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                YahooService service = retrofit.create(YahooService.class);
                 final Call<List<Headline>> call =
                         service.symbolHeadlines("huh");
 
@@ -47,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<List<Headline>> call, Throwable t) {
+                        Log.e("onFail", t.getMessage());
                         textView.setText("Something went wrong: " + t.getMessage());
                     }
                 });
@@ -57,8 +66,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Login.mAuth.signOut();
-                startActivity(new Intent("android.intent.action.MAIN"));
+                mAuth.signOut();
+                startActivity(new Intent(MainActivity.this, Login.class));
                 }
             });
         }

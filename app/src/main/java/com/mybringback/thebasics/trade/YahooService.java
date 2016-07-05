@@ -16,10 +16,4 @@ public interface YahooService {
     @GET("/rss/headline")
     Call<List<Headline>> symbolHeadlines(
             @Query("s") String headline);
-
-
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl("http://finance.yahoo.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
 }

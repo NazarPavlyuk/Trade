@@ -26,7 +26,17 @@ public class Login extends BaseActivity implements View.OnClickListener {
     private EditText mEmailField;
     private EditText mPasswordField;
 
-    public static FirebaseAuth mAuth;
+    public static class Singleton {
+        private static FirebaseAuth mAuth;
+
+        public static FirebaseAuth instance(){
+            if (mAuth==null) {
+                mAuth = FirebaseAuth.getInstance();
+            }
+            return mAuth;
+        }
+    }
+    public FirebaseAuth mAuth;
 
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -44,8 +54,7 @@ public class Login extends BaseActivity implements View.OnClickListener {
         findViewById(R.id.email_create_account_button).setOnClickListener(this);
         findViewById(R.id.sign_out_button).setOnClickListener(this);
 
-
-        mAuth = FirebaseAuth.getInstance();
+         mAuth = Singleton.instance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
