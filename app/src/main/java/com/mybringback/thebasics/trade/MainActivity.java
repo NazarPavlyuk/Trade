@@ -40,21 +40,22 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://finance.yahoo.com/")
+                        .baseUrl("https://www.quandl.com/api/v3/")
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
-                YahooService service = retrofit.create(YahooService.class);
-                final Call<List<Headline>> call =
-                        service.symbolHeadlines("huh");
+                DataService service = retrofit.create(DataService.class);
+                final Call<Main> call =
+                        service.rowsOrder("10","desc");
 
-                call.enqueue(new Callback<List<Headline>>() {
+                call.enqueue(new Callback <Main>() {
                     @Override
-                    public void onResponse(Call<List<Headline>> call, Response<List<Headline>> response) {
+                    public void onResponse(Call <Main> call, Response<Main> response) {
                         Log.e("onResponse", String.valueOf(response.raw()));
+                        textView.setText(response.body().getDataset().toString());
                     }
 
                     @Override
-                    public void onFailure(Call<List<Headline>> call, Throwable t) {
+                    public void onFailure(Call<Main> call, Throwable t) {
                         Log.e("onFail", t.getMessage());
                         textView.setText("Something went wrong: " + t.getMessage());
                     }
